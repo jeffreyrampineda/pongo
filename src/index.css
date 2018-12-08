@@ -21,3 +21,9 @@ body {
   max-width: 680px;
   padding: 0 15px;
 }
+
+.pongo-actions {
+  float: left;
+  margin-left: 20%;
+}
+  
