@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPlus, faMinus)
 
 class App extends Component {
   state = {
@@ -31,10 +36,10 @@ class App extends Component {
         <div className="pongo-actions">
           <ul className="nav flex-column">
             <li className="nav-item">
-              <button className="btn btn-link">Add</button>
+              <button className="btn btn-link"><FontAwesomeIcon icon="plus" /></button>
             </li>
             <li className="nav-item">
-              <button className="btn btn-link">Remove</button>
+              <button className="btn btn-link"><FontAwesomeIcon icon="minus" /></button>
             </li>
           </ul>
         </div>
