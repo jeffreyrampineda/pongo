@@ -20,8 +20,11 @@ class ActivityList extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.activities.map(activity => <Activity title={activity.title} datetime={activity.datetime}/>)}
+      <div className="container">
+        <h1 class="mt-5">Pongo Activities</h1>
+        <div class="list-group">
+          {this.state.activities.map(activity => <Activity title={activity.title} datetime={activity.datetime}/>)}
+        </div>
       </div>
     );
   }

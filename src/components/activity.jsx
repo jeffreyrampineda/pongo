@@ -34,7 +34,7 @@ class Activity extends Component {
 
   render() {
     return (
-      <div>
+      <div className="list-group-item">
         <div>{this.howLongAgo()}</div>
         <div>
           <div>{this.props.title}</div>
