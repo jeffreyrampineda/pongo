@@ -20,6 +20,7 @@ class ActivityList extends Component {
               id={activity.id}
               title={activity.title}
               datetime={activity.datetime}
+              showDelete={this.props.showDelete}
               onDelete={this.props.onDelete}
             />
           )}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 var moment = require('moment');
 
 class Activity extends Component {
@@ -15,12 +16,12 @@ class Activity extends Component {
       var days = Math.floor(minutes / day);
       timeAgoString = days + " day" + this.pluralize(days)
 
-    // Hours
+      // Hours
     } else if (minutes >= hour) {
       var hours = Math.floor(minutes / hour);
       timeAgoString = hours + " hour" + this.pluralize(hours);
-      
-    // Minutes
+
+      // Minutes
     } else {
       timeAgoString = minutes + " minute" + this.pluralize(minutes);
     }
@@ -39,9 +40,12 @@ class Activity extends Component {
         <div>
           <div>{this.props.title}</div>
           <div>{moment(this.props.datetime).format('DD/MM/YY, HH:mm')}</div>
-          <button
-            onClick={() => this.props.onDelete(this.props.id)}
-          >Delete</button>
+          {this.props.showDelete &&
+            <button
+              className="btn btn-danger"
+              onClick={() => this.props.onDelete(this.props.id)}
+            ><FontAwesomeIcon icon="minus"/></button>
+          }
         </div>
       </div>
     );

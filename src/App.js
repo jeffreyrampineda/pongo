@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faPlus, faMinus)
 
@@ -17,8 +17,8 @@ class App extends Component {
       id: 2,
       title: "test title 2",
       datetime: new Date('2018/12/06 19:20'),
-    },
-    ]
+    }],
+    showDelete: false
   };
 
   handleDelete = activityId => {
@@ -26,8 +26,13 @@ class App extends Component {
     this.setState({ activities });
   }
 
-  // handleNewActivity()
-  // handleShowDeleteActivitySelect()
+  handleNewActivity = _ => {
+
+  }
+
+  handleShowDelete = _ => {
+    this.setState({ showDelete: !this.state.showDelete });
+  }
 
   render() {
     return (
@@ -36,16 +41,23 @@ class App extends Component {
         <div className="pongo-actions">
           <ul className="nav flex-column">
             <li className="nav-item">
-              <button className="btn btn-link"><FontAwesomeIcon icon="plus" /></button>
+              <button 
+                className="btn btn-link" 
+                onClick={this.handleNewActivity}
+              ><FontAwesomeIcon icon="plus" /></button>
             </li>
             <li className="nav-item">
-              <button className="btn btn-link"><FontAwesomeIcon icon="minus" /></button>
+              <button 
+                className="btn btn-link"
+                onClick={this.handleShowDelete}
+              ><FontAwesomeIcon icon="minus"/></button>
             </li>
           </ul>
         </div>
         <main className="container">
           <ActivityList
             activities={this.state.activities}
+            showDelete={this.state.showDelete}
             onDelete={this.handleDelete}
           />
         </main>
