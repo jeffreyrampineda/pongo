@@ -3,9 +3,9 @@ import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPlus, faMinus)
+library.add(faPlus, faMinus, faEdit)
 
 class App extends Component {
   state = {
@@ -18,20 +18,29 @@ class App extends Component {
       title: "test title 2",
       datetime: new Date('2018/12/06 19:20'),
     }],
-    showDelete: false
+    showDelete: false,
+    showEdit: false,
   };
-
-  handleDelete = activityId => {
-    const activities = this.state.activities.filter(a => a.id !== activityId);
-    this.setState({ activities });
-  }
 
   handleNewActivity = _ => {
 
   }
 
   handleShowDelete = _ => {
-    this.setState({ showDelete: !this.state.showDelete });
+    this.setState({ showDelete: !this.state.showDelete, showEdit: false });
+  }
+  
+  handleDelete = activityId => {
+    const activities = this.state.activities.filter(a => a.id !== activityId);
+    this.setState({ activities });
+  }
+
+  handleShowEdit = _ => {
+    this.setState({ showEdit: !this.state.showEdit, showDelete: false })
+  }
+
+  handleEdit = activityId => {
+
   }
 
   render() {
@@ -52,6 +61,12 @@ class App extends Component {
                 onClick={this.handleShowDelete}
               ><FontAwesomeIcon icon="minus"/></button>
             </li>
+            <li className="nav-item">
+              <button 
+                className="btn btn-link"
+                onClick={this.handleShowEdit}
+              ><FontAwesomeIcon icon="edit"/></button>
+            </li>
           </ul>
         </div>
         <main className="container">
@@ -59,6 +74,8 @@ class App extends Component {
             activities={this.state.activities}
             showDelete={this.state.showDelete}
             onDelete={this.handleDelete}
+            showEdit={this.state.showEdit}
+            onEdit={this.handleEdit}
           />
         </main>
       </React.Fragment>

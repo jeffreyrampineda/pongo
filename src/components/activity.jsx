@@ -46,6 +46,12 @@ class Activity extends Component {
               onClick={() => this.props.onDelete(this.props.id)}
             ><FontAwesomeIcon icon="minus"/></button>
           }
+          {this.props.showEdit &&
+            <button
+              className="btn btn-primary"
+              onClick={() => this.props.onEdit(this.props.id)}
+            ><FontAwesomeIcon icon="edit"/></button>
+          }
         </div>
       </div>
     );

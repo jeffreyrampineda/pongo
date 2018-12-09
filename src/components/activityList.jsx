@@ -22,6 +22,8 @@ class ActivityList extends Component {
               datetime={activity.datetime}
               showDelete={this.props.showDelete}
               onDelete={this.props.onDelete}
+              showEdit={this.props.showEdit}
+              onEdit={this.props.onEdit}
             />
           )}
         </div>;
