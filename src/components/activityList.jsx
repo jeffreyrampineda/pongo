@@ -29,6 +29,9 @@ class ActivityList extends Component {
               onDelete={this.props.onDelete}
               showEdit={this.props.showEdit}
               onEdit={this.props.onEdit}
+              isEditting={activity.isEditting}
+              onSave={this.props.onSave}
+              onCancel={this.props.onCancel}
             />
           )}
         </div>;
