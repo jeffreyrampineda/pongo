@@ -21,6 +21,11 @@ class App extends Component {
         title: "test title 2",
         datetime: new Date('2018/12/06 19:20'),
         isEditting: false,
+      }, {
+        id: 3,
+        title: "test title 3",
+        datetime: new Date('2018/12/06 19:25'),
+        isEditting: false,
       }],
       showDelete: false,
       showEdit: false,

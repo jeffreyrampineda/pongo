@@ -107,7 +107,7 @@ class Activity extends Component {
         <div>
           <div>{this.howLongAgo()}</div>
           <div>{this.props.title}</div>
-          <div>{moment(this.props.datetime).format('DD/MM/YY, HH:mm')}</div>
+          <div>{moment(this.props.datetime).format('HH:mm')}</div>
           {this.props.showDelete &&
             <button
               className="btn btn-danger"
