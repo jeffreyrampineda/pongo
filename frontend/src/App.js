@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faEdit, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-
-library.add(faPlus, faMinus, faEdit, faCheck, faTimes)
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 class App extends Component {
   constructor(props) {
@@ -91,19 +89,19 @@ class App extends Component {
               <button
                 className="btn btn-link"
                 onClick={this.handleNewActivity}
-              ><FontAwesomeIcon icon="plus" /></button>
+              ><AddBoxIcon /></button>
             </li>
             <li className="nav-item">
               <button
                 className="btn btn-link"
                 onClick={this.handleShowDeleteActivity}
-              ><FontAwesomeIcon icon="minus" /></button>
+              ><DeleteIcon /></button>
             </li>
             <li className="nav-item">
               <button
                 className="btn btn-link"
                 onClick={this.handleShowEditActivity}
-              ><FontAwesomeIcon icon="edit" /></button>
+              ><EditIcon /></button>
             </li>
           </ul>
         </div>

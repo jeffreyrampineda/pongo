@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
 var moment = require('moment');
 
 class Activity extends Component {
@@ -92,14 +95,14 @@ class Activity extends Component {
           <button
             className="btn btn-success"
             type="submit"
-          ><FontAwesomeIcon icon="check" /></button>
+          ><CheckIcon /></button>
           <button
             className="btn btn-danger"
             onClick={() => {
               this.reset();
               this.props.onCancel(this.props.id);
             }}
-          ><FontAwesomeIcon icon="times" /></button>
+          ><CancelIcon /></button>
         </form>
 
     } else {
@@ -112,13 +115,13 @@ class Activity extends Component {
             <button
               className="btn btn-danger"
               onClick={() => this.props.onDelete(this.props.id)}
-            ><FontAwesomeIcon icon="minus" /></button>
+            ><DeleteIcon /></button>
           }
           {this.props.showEdit &&
             <button
               className="btn btn-primary"
               onClick={() => this.props.onEdit(this.props.id)}
-            ><FontAwesomeIcon icon="edit" /></button>
+            ><EditIcon /></button>
           }
         </div>
     }
