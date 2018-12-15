@@ -35,7 +35,10 @@ class App extends Component {
   handleNewActivity = _ => {
     const activities = this.state.activities;
     activities.push({
+
+      // Logic error - If an activity is deleted, the next newActivity conflicts with another.
       id: this.state.activities.length + 1,
+
       title: "",
       datetime: new Date(),
       isEditting: true
