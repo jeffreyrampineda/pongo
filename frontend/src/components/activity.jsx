@@ -54,14 +54,16 @@ class Activity extends Component {
     if (minutes >= day) {
       var days = Math.floor(minutes / day);
       timeAgoString = days + " day" + this.pluralize(days)
+    }
 
-      // Hours
-    } else if (minutes >= hour) {
+    // Hours
+    else if (minutes >= hour) {
       var hours = Math.floor(minutes / hour);
       timeAgoString = hours + " hour" + this.pluralize(hours);
-
-      // Minutes
-    } else {
+    } 
+    
+    // Minutes
+    else {
       timeAgoString = minutes + " minute" + this.pluralize(minutes);
     }
 
@@ -72,10 +74,14 @@ class Activity extends Component {
     return number >= 2 ? "s" : "";
   }
 
+  //-------------------------------------------------------------
+
   render() {
+    const isEditting = this.props.isEditting;
     let activity;
 
-    if (this.props.isEditting) {
+    // Check if activity is being editted.
+    if (isEditting) {
       activity =
         <form onSubmit={this.handleSubmit}>
           <label>
@@ -125,6 +131,8 @@ class Activity extends Component {
           }
         </div>
     }
+
+    //-------------------------------------------------------------
 
     return (
       <div className="list-group-item">

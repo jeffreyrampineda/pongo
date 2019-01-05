@@ -33,6 +33,8 @@ class App extends Component {
     });
   };
 
+  //-------------------------------------------------------------
+
   handleNewActivity = _ => {
     const activities = this.state.activities;
     activities.push({
@@ -81,6 +83,8 @@ class App extends Component {
     activities[activityIndex].isEditting = false;
     this.setState({ activities });
   }
+
+  //-------------------------------------------------------------
 
   render() {
     return (
