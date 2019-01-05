@@ -4,31 +4,34 @@ import ActivityList from './components/activityList';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activities: [{
-        id: 1,
-        title: "test title",
-        datetime: new Date('2018/12/05 19:20'),
-        isEditting: false,
-      }, {
-        id: 2,
-        title: "test title 2",
-        datetime: new Date('2018/12/06 19:20'),
-        isEditting: false,
-      }, {
-        id: 3,
-        title: "test title 3",
-        datetime: new Date('2018/12/06 19:25'),
-        isEditting: false,
-      }],
+      activities: [],
       showDelete: false,
       showEdit: false,
     };
   }
+
+  componentDidMount() {
+    this.getDataFromDb();
+  }
+
+  getDataFromDb = () => {
+    axios.get('/api/activities')
+    .then(response => {
+      this.setState({ activities: response.data })
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  };
 
   handleNewActivity = _ => {
     const activities = this.state.activities;

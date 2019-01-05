@@ -30,13 +30,13 @@ class ActivityList extends Component {
             if (date.getDate() !== activityDate.getDate() ||
               date.getMonth() !== activityDate.getMonth() ||
               date.getFullYear() !== activityDate.getFullYear()) {
-              date = activity.datetime;
+              date = activityDate;
               dateComponent = <div>{moment(date).format('YYYY/MM/DD')}</div>
             }
-            return <div key={activity.id}>
+            return <div key={activity._id}>
               {dateComponent}
               <Activity
-                id={activity.id}
+                id={activity._id}
                 title={activity.title}
                 datetime={activity.datetime}
                 showDelete={this.props.showDelete}
