@@ -46,7 +46,7 @@ class Activity extends Component {
   howLongAgo() {
     const day = 1440;
     const hour = 60;
-    const diff = Math.abs(new Date() - this.props.datetime);
+    const diff = Math.abs(new Date() - new Date(this.props.datetime));
     const minutes = Math.floor((diff / 1000) / 60);
     var timeAgoString = "";
 
