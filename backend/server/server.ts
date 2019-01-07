@@ -2,6 +2,7 @@ import * as Koa from 'koa';
 import { ActivitiesRoute } from './routes/activities.route';
 import * as mongoose from 'mongoose';
 import * as cors from '@koa/cors';
+import * as bodyParser from 'koa-bodyparser';
 
 mongoose.connect('mongodb://localhost/pongo-log', { useNewUrlParser: true });
 
@@ -20,6 +21,7 @@ const options:cors.CorsOptions = {
     origin: API_URL
 };
 
+app.use(bodyParser());
 app.use(cors(options));
 app.use(ActivitiesRoute);
 
