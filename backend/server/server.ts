@@ -1,6 +1,7 @@
 import * as Koa from 'koa';
 import { ActivitiesRoute } from './routes/activities.route';
 import * as mongoose from 'mongoose';
+import * as cors from '@koa/cors';
 
 mongoose.connect('mongodb://localhost/pongo-log', { useNewUrlParser: true });
 
@@ -10,7 +11,16 @@ mongoose.connection.once('open', () => console.log('Connection to mongodb establ
 // Create Koa Application
 const app = new Koa();
 const port = process.env.PORT || 3001
+const API_URL = "http://localhost:3000"
 
+const options:cors.CorsOptions = {
+    allowHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+    credentials: true,
+    allowMethods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+    origin: API_URL
+};
+
+app.use(cors(options));
 app.use(ActivitiesRoute);
 
 // Start the application
