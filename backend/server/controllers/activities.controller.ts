@@ -2,7 +2,7 @@ import Activity from '../models/activity';
 
 class ActivitiesController {
 
-    async getActivities(ctx) {
+    async getAll(ctx) {
         ctx.body = await Activity.find();
     }
 

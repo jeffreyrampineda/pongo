@@ -6,7 +6,7 @@ const router = new Router();
 router.prefix('/api/activities');
 
 // GET /api/activity
-router.get('/', ActivitiesController.getActivities)
+router.get('/', ActivitiesController.getAll)
 
 router.post('/', ActivitiesController.create)
 
