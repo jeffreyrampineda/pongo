@@ -3,11 +3,7 @@ import ActivitiesController from '../controllers/activities.controller';
 
 const router = new Router();
 
-router.prefix('/api/activities');
-
-// GET /api/activity
 router.get('/', ActivitiesController.getAll)
-
 router.post('/', ActivitiesController.create)
 
 export const ActivitiesRoute = router.routes();
