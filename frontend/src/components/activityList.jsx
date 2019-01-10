@@ -13,7 +13,11 @@ class ActivityList extends Component {
         <div style={{ textAlign: "center" }}>
           <h1 className="mt-5">No activities!</h1>
         </div>;
-    } else {
+    }
+    
+    //-------------------------------------------------------------
+    
+    else {
 
       // Date to use as reference for grouping activities
       // with the same day, month, and year.
@@ -43,16 +47,13 @@ class ActivityList extends Component {
             return <div key={activity._id}>
               {dateHeader}
               <Activity
-                id={activity._id}
+                _id={activity._id}
                 title={activity.title}
                 datetime={activity.datetime}
                 showDelete={this.props.showDelete}
-                onDelete={this.props.onDelete}
                 showEdit={this.props.showEdit}
-                onEdit={this.props.onEdit}
-                isEditting={activity.isEditting}
-                onSave={this.props.onSave}
-                onCancel={this.props.onCancel}
+                onDelete={this.props.onDelete}
+                onUpdate={this.props.onUpdate}
               />
             </div>
           })}

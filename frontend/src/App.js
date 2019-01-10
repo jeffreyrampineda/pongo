@@ -4,6 +4,7 @@ import ActivityList from './components/activityList';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import Modal from '@material-ui/core/Modal';
 import axios from 'axios';
 
 class App extends Component {
@@ -13,6 +14,9 @@ class App extends Component {
       activities: [],
       showDelete: false,
       showEdit: false,
+      isCreatingActivity: false,
+      newTitle: "",
+      newDatetime: new Date(),
     };
   }
 
@@ -20,68 +24,83 @@ class App extends Component {
     this.getDataFromDb();
   }
 
-  getDataFromDb = () => {
-    axios.get('/api/activities')
+  //-------------------------------------------------------------
+
+  handleCreateActivity = _ => {
+    axios.post('/api/activities', {
+      title: this.state.newTitle,
+      datetime: this.state.newDatetime
+    })
     .then(response => {
-      this.setState({ activities: response.data })
+      if(response.status===200) {
+        const activities = this.state.activities;
+        activities.push(response.data);
+    
+        this.setState({ activities });
+        this.toggleCreateActivity();
+      }
     })
     .catch(function (error) {
       console.log(error);
-    })
-    .then(function () {
-      // always executed
     });
-  };
+  }
+
+  handleChange = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    this.setState({[name]: value});
+  }
+
+  handleUpdateActivity = updatedActivity => {
+    axios.put(`/api/activities/${updatedActivity._id}`, updatedActivity)
+    .then(response => {
+      if(response.status===200) {
+        const activityIndex = this.state.activities.findIndex(a => a._id === updatedActivity._id);
+        const activities = this.state.activities;
+        activities[activityIndex] = updatedActivity;
+
+        this.setState({ activities });
+      }
+    })
+  }
+
+  handleDeleteActivity = id => {
+    axios.delete(`/api/activities/${id}`)
+    .then(response => {
+      if(response.status===200) {
+        const activities = this.state.activities.filter(a => a._id !== id);
+        
+        this.setState({ activities });
+      }
+    })
+  }
 
   //-------------------------------------------------------------
 
-  handleNewActivity = _ => {
-    const activities = this.state.activities;
-    activities.push({
+  getDataFromDb = _ => {
+    axios.get('/api/activities')
+      .then(response => {
+        this.setState({ activities: response.data })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  };
 
-      // Logic error - If an activity is deleted, the next newActivity conflicts with another.
-      id: this.state.activities.length + 1,
+  toggleCreateActivity = _ => {
+    this.setState({
+      newTitle: "",
+      newDatetime: new Date(),
+      isCreatingActivity: !this.state.isCreatingActivity });
+  };
 
-      title: "",
-      datetime: new Date(),
-      isEditting: true
-    });
-
-    this.setState({ activities });
-  }
-
-  handleShowDeleteActivity = _ => {
-    this.setState({ showDelete: !this.state.showDelete, showEdit: false });
-  }
-
-  handleDeleteActivity = activityId => {
-    const activities = this.state.activities.filter(a => a.id !== activityId);
-    this.setState({ activities });
-  }
-
-  handleShowEditActivity = _ => {
+  toggleEditActivity = _ => {
     this.setState({ showEdit: !this.state.showEdit, showDelete: false })
   }
 
-  handleEditActivity = activityId => {
-    const activityIndex = this.state.activities.findIndex(a => a.id === activityId);
-    const activities = this.state.activities;
-    activities[activityIndex].isEditting = true;
-    this.setState({ activities, showEdit: false });
-  }
-
-  handleSaveActivity = newActivity => {
-    const activityIndex = this.state.activities.findIndex(a => a.id === newActivity.id);
-    const activities = this.state.activities;
-    activities[activityIndex] = newActivity;
-    this.setState({ activities });
-  }
-
-  handleCancelEdit = activityId => {
-    const activityIndex = this.state.activities.findIndex(a => a.id === activityId);
-    const activities = this.state.activities;
-    activities[activityIndex].isEditting = false;
-    this.setState({ activities });
+  toggleDeleteActivity = _ => {
+    this.setState({ showDelete: !this.state.showDelete, showEdit: false });
   }
 
   //-------------------------------------------------------------
@@ -95,34 +114,67 @@ class App extends Component {
             <li className="nav-item">
               <button
                 className="btn btn-link"
-                onClick={this.handleNewActivity}
+                onClick={this.toggleCreateActivity}
               ><AddBoxIcon /></button>
             </li>
             <li className="nav-item">
               <button
                 className="btn btn-link"
-                onClick={this.handleShowDeleteActivity}
+                onClick={this.toggleDeleteActivity}
               ><DeleteIcon /></button>
             </li>
             <li className="nav-item">
               <button
                 className="btn btn-link"
-                onClick={this.handleShowEditActivity}
+                onClick={this.toggleEditActivity}
               ><EditIcon /></button>
             </li>
           </ul>
         </div>
+
+        {/*-------------------------------------------------------------*/}
+
         <main className="container">
           <ActivityList
             activities={this.state.activities}
             showDelete={this.state.showDelete}
-            onDelete={this.handleDeleteActivity}
             showEdit={this.state.showEdit}
-            onEdit={this.handleEditActivity}
-            onSave={this.handleSaveActivity}
-            onCancel={this.handleCancelEdit}
+            onDelete={this.handleDeleteActivity}
+            onUpdate={this.handleUpdateActivity}
           />
         </main>
+
+        {/*-------------------------------------------------------------*/}
+
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.isCreatingActivity}
+          onClose={this.toggleCreateActivity}
+        >
+          <div className="example-modal">
+            <label>
+              Name:
+              <input
+                name="newTitle"
+                type="text"
+                value={this.state.newTitle}
+                onChange={this.handleChange} />
+              <input
+                name="newDatetime"
+                type="datetime-local"
+                value={this.state.newDatetime}
+                min="2018-06-07T00:00" max="2018-06-14T00:00"
+                onChange={this.handleChange} />
+            </label>
+            <button
+              onClick={() => this.handleCreateActivity()}
+            >Submit</button>
+            <button
+              onClick={() => this.toggleCreateActivity()}
+            >Cancel</button>
+          </div>
+        </Modal>
       </React.Fragment>
     );
   }
