@@ -24,7 +24,7 @@ app.use(cors(options));
 app.use(bodyParser());
 app.use(router.routes());
 
-mongoose.connect(`mongodb://${db_host}:27017/pongo-log`, { useNewUrlParser: true });
+mongoose.connect(`mongodb://${db_host}:27017/pongo`, { useNewUrlParser: true });
 mongoose.connection.on('error', console.error);
 mongoose.connection.once('open', () => console.log('Connection to mongodb established'));
 
