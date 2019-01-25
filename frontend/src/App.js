@@ -4,7 +4,12 @@ import ActivityList from './components/activityList';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+
 import axios from 'axios';
 
 class App extends Component {
@@ -149,13 +154,12 @@ class App extends Component {
 
         {/*-------------------------------------------------------------*/}
 
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
+        <Dialog 
           open={this.state.isCreatingActivity}
           onClose={this.toggleCreateActivity}
         >
-          <div className="example-modal">
+          <DialogTitle id="simple-dialog-title">Create new activity</DialogTitle>
+          <DialogContent>
             <label>
               Name:
               <input
@@ -170,14 +174,18 @@ class App extends Component {
                 min="2018-06-07T00:00" max="2018-06-14T00:00"
                 onChange={this.handleChange} />
             </label>
-            <button
-              onClick={() => this.handleCreateActivity()}
-            >Submit</button>
-            <button
+          </DialogContent>
+          <DialogActions>
+            <Button 
+              color="primary"
               onClick={() => this.toggleCreateActivity()}
-            >Cancel</button>
-          </div>
-        </Modal>
+            >Cancel</Button>
+            <Button
+              color="primary"
+              onClick={() => this.handleCreateActivity()}
+            >Submit</Button>
+          </DialogActions>
+        </Dialog>
       </React.Fragment>
     );
   }
