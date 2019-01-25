@@ -8,6 +8,9 @@ import Modal from '@material-ui/core/Modal';
 import axios from 'axios';
 
 class App extends Component {
+
+  activitiesUrl = 'http://localhost:3001/api/activities';
+
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +30,7 @@ class App extends Component {
   //-------------------------------------------------------------
 
   handleCreateActivity = _ => {
-    axios.post('/api/activities', {
+    axios.post(this.activitiesUrl, {
       title: this.state.newTitle,
       datetime: this.state.newDatetime
     })
@@ -45,15 +48,8 @@ class App extends Component {
     });
   }
 
-  handleChange = (event) => {
-    const value = event.target.value;
-    const name = event.target.name;
-
-    this.setState({[name]: value});
-  }
-
   handleUpdateActivity = updatedActivity => {
-    axios.put(`/api/activities/${updatedActivity._id}`, updatedActivity)
+    axios.put(`${this.activitiesUrl}/${updatedActivity._id}`, updatedActivity)
     .then(response => {
       if(response.status===200) {
         const activityIndex = this.state.activities.findIndex(a => a._id === updatedActivity._id);
@@ -66,7 +62,7 @@ class App extends Component {
   }
 
   handleDeleteActivity = id => {
-    axios.delete(`/api/activities/${id}`)
+    axios.delete(`${this.activitiesUrl}/${id}`)
     .then(response => {
       if(response.status===200) {
         const activities = this.state.activities.filter(a => a._id !== id);
@@ -76,10 +72,8 @@ class App extends Component {
     })
   }
 
-  //-------------------------------------------------------------
-
   getDataFromDb = _ => {
-    axios.get('/api/activities')
+    axios.get(this.activitiesUrl)
       .then(response => {
         this.setState({ activities: response.data })
       })
@@ -87,6 +81,15 @@ class App extends Component {
         console.log(error);
       })
   };
+
+//-------------------------------------------------------------
+
+  handleChange = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    this.setState({[name]: value});
+  }
 
   toggleCreateActivity = _ => {
     this.setState({
