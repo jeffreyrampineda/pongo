@@ -3,6 +3,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import { DatePicker } from 'material-ui-pickers';
 var moment = require('moment');
 
 class Activity extends Component {
@@ -91,21 +94,33 @@ class Activity extends Component {
     // Check if activity is being editted.
     if (this.state.isEditting) {
       activity =
-        <div>
-          <label>
-            Name:
-            <input
-              name="title"
-              type="text"
-              value={this.state.title}
-              onChange={this.handleChange} />
-            <input
-              name="datetime"
-              type="datetime-local"
-              value={this.state.datetime}
-              min="2018-06-07T00:00" max="2018-06-14T00:00"
-              onChange={this.handleChange} />
-          </label>
+      <Grid container spacing={12}>
+        <Grid item xs={10}>
+          <TextField
+            label="Activity"
+            name="title"
+            type="text"
+            value={this.state.title}
+            onChange={this.handleChange}
+          />
+          <TextField
+            label="Alarm clock"
+            type="time"
+            defaultValue={moment(this.state.datetime).format('HH:mm')}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 300, // 5 min
+            }}
+          />
+          <DatePicker
+            margin="normal"
+            label="Date"
+            value={this.state.datetime}
+          />
+        </Grid>
+        <Grid item xs={2}>
           <button
             className="btn btn-success"
             onClick={() => this.handleUpdate()}
@@ -114,23 +129,25 @@ class Activity extends Component {
             className="btn btn-danger"
             onClick={() => this.toggleEditting()}
           ><CancelIcon /></button>
-        </div>
-
+        </Grid>
+      </Grid>
     } 
 
     //-------------------------------------------------------------
 
     else {
       activity =
-        <div>
+      <Grid container spacing={12}>
+        <Grid item xs={8}>
           <div>{this.howLongAgo()}</div>
           <div>{this.props.title}</div>
           <div>{moment(this.props.datetime).format('HH:mm')}</div>
-
+        </Grid>
+        <Grid item xs={4}>
           {/* If deleting */}
           {this.props.showDelete &&
             <button
-              className="btn btn-danger"
+              className="btn btn-danger float-right"
               onClick={() => this.handleDelete()}
             ><DeleteIcon /></button>
           }
@@ -138,11 +155,12 @@ class Activity extends Component {
           {/* If Editting */}
           {this.props.showEdit &&
             <button
-              className="btn btn-primary"
+              className="btn btn-primary float-right"
               onClick={() => this.toggleEditting()}
             ><EditIcon /></button>
           }
-        </div>
+        </Grid>
+      </Grid>
     }
 
     //-------------------------------------------------------------

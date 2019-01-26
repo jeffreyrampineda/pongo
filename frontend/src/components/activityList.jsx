@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import Activity from './activity';
 var moment = require('moment');
 
@@ -46,6 +49,7 @@ class ActivityList extends Component {
             // Complete group of a single Activity component.
             return <div key={activity._id}>
               {dateHeader}
+              
               <Activity
                 _id={activity._id}
                 title={activity.title}
@@ -60,11 +64,17 @@ class ActivityList extends Component {
         </div>;
     }
 
+    if (this.props.loading) {
+      list = <CircularProgress />
+    }
+
     //-------------------------------------------------------------
 
     return (
       <React.Fragment>
-        {list}
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          {list}
+        </MuiPickersUtilsProvider>
       </React.Fragment>
     );
   }

@@ -9,8 +9,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import axios from 'axios';
+const moment = require('moment');
 
 class App extends Component {
 
@@ -25,6 +27,7 @@ class App extends Component {
       isCreatingActivity: false,
       newTitle: "",
       newDatetime: new Date(),
+      loading: false,
     };
   }
 
@@ -78,9 +81,11 @@ class App extends Component {
   }
 
   getDataFromDb = _ => {
+    this.setState({ loading: true });
+
     axios.get(this.activitiesUrl)
       .then(response => {
-        this.setState({ activities: response.data })
+        this.setState({ activities: response.data, loading: false })
       })
       .catch(function (error) {
         console.log(error);
@@ -144,6 +149,7 @@ class App extends Component {
 
         <main className="container">
           <ActivityList
+            loading={this.state.loading}
             activities={this.state.activities}
             showDelete={this.state.showDelete}
             showEdit={this.state.showEdit}
@@ -160,20 +166,22 @@ class App extends Component {
         >
           <DialogTitle id="simple-dialog-title">Create new activity</DialogTitle>
           <DialogContent>
-            <label>
-              Name:
-              <input
-                name="newTitle"
-                type="text"
-                value={this.state.newTitle}
-                onChange={this.handleChange} />
-              <input
-                name="newDatetime"
-                type="datetime-local"
-                value={this.state.newDatetime}
-                min="2018-06-07T00:00" max="2018-06-14T00:00"
-                onChange={this.handleChange} />
-            </label>
+            <TextField
+              label="Activity"
+              name="newTitle"
+              type="text"
+              value={this.state.newTitle}
+              onChange={this.handleChange} />
+            <TextField
+              label="Alarm clock"
+              type="time"
+              defaultValue={moment(this.state.newDatetime).format('HH:mm')}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }} />
           </DialogContent>
           <DialogActions>
             <Button 
