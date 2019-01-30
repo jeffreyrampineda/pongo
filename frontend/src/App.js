@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddCircle from '@material-ui/icons/AddCircle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -22,8 +20,6 @@ class App extends Component {
     super(props);
     this.state = {
       activities: [],
-      showDelete: false,
-      showEdit: false,
       isCreatingActivity: false,
       newTitle: "",
       newDatetime: new Date(),
@@ -108,14 +104,6 @@ class App extends Component {
       isCreatingActivity: !this.state.isCreatingActivity });
   };
 
-  toggleEditActivity = _ => {
-    this.setState({ showEdit: !this.state.showEdit, showDelete: false })
-  }
-
-  toggleDeleteActivity = _ => {
-    this.setState({ showDelete: !this.state.showDelete, showEdit: false });
-  }
-
   //-------------------------------------------------------------
 
   render() {
@@ -123,26 +111,10 @@ class App extends Component {
       <React.Fragment>
         <NavBar />
         <div className="pongo-actions">
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <button
-                className="btn btn-link"
-                onClick={this.toggleCreateActivity}
-              ><AddBoxIcon /></button>
-            </li>
-            <li className="nav-item">
-              <button
-                className="btn btn-link"
-                onClick={this.toggleDeleteActivity}
-              ><DeleteIcon /></button>
-            </li>
-            <li className="nav-item">
-              <button
-                className="btn btn-link"
-                onClick={this.toggleEditActivity}
-              ><EditIcon /></button>
-            </li>
-          </ul>
+          <button
+            className="btn btn-link"
+            onClick={this.toggleCreateActivity}
+          ><AddCircle fontSize="large" /></button>
         </div>
 
         {/*-------------------------------------------------------------*/}
@@ -151,8 +123,6 @@ class App extends Component {
           <ActivityList
             loading={this.state.loading}
             activities={this.state.activities}
-            showDelete={this.state.showDelete}
-            showEdit={this.state.showEdit}
             onDelete={this.handleDeleteActivity}
             onUpdate={this.handleUpdateActivity}
           />

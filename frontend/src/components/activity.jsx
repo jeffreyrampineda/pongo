@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/Check';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import { DatePicker } from 'material-ui-pickers';
-var moment = require('moment');
+import TextField from '@material-ui/core/TextField';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+
+const moment = require('moment');
 
 class Activity extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class Activity extends Component {
     this.state = {
       title: this.props.title,
       datetime: this.props.datetime,
-      isEditting: false
+      isEditting: false,
+      anchorEl: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,7 +32,7 @@ class Activity extends Component {
     this.setState({ [name]: value });
   }
 
-  handleUpdate() {
+  handleUpdate = () => {
     let updatedActivity = {
       _id: this.props._id,
       title: this.state.title,
@@ -38,12 +40,20 @@ class Activity extends Component {
     }
 
     this.props.onUpdate(updatedActivity);
-    this.toggleEditting();
+    this.closeEdit();
   }
 
-  handleDelete() {
+  handleDelete = () => {
     this.props.onDelete(this.props._id)
   }
+
+  handleClickMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleCloseMenu = () => {
+    this.setState({ anchorEl: null });
+  };
 
   //-------------------------------------------------------------
 
@@ -78,11 +88,16 @@ class Activity extends Component {
     return number >= 2 ? "s" : "";
   }
 
-  toggleEditting() {
-    this.setState({
+  showEdit = () => {
+    this.setState({ isEditting: true });
+  }
+
+  closeEdit = () => {
+    this.setState({ 
       title: this.props.title,
       datetime: this.props.datetime,
-      isEditting: !this.state.isEditting 
+      isEditting: false, 
+      anchorEl: null 
     });
   }
 
@@ -94,9 +109,8 @@ class Activity extends Component {
     // Check if activity is being editted.
     if (this.state.isEditting) {
       activity =
-      <Grid container spacing={12}>
-        <Grid item xs={10}>
-          <TextField
+      <ListItem>
+         <TextField
             label="Activity"
             name="title"
             type="text"
@@ -119,56 +133,39 @@ class Activity extends Component {
             label="Date"
             value={this.state.datetime}
           />
-        </Grid>
-        <Grid item xs={2}>
-          <button
-            className="btn btn-success"
-            onClick={() => this.handleUpdate()}
-          ><CheckIcon /></button>
-          <button
-            className="btn btn-danger"
-            onClick={() => this.toggleEditting()}
-          ><CancelIcon /></button>
-        </Grid>
-      </Grid>
+          <Button size="small" onClick={this.closeEdit}>Cancel</Button>
+          <Button size="small" color="primary" onClick={this.handleUpdate}>Save</Button>
+      </ListItem>
     } 
 
     //-------------------------------------------------------------
 
     else {
       activity =
-      <Grid container spacing={12}>
-        <Grid item xs={8}>
-          <div>{this.howLongAgo()}</div>
-          <div>{this.props.title}</div>
-          <div>{moment(this.props.datetime).format('HH:mm')}</div>
-        </Grid>
-        <Grid item xs={4}>
-          {/* If deleting */}
-          {this.props.showDelete &&
-            <button
-              className="btn btn-danger float-right"
-              onClick={() => this.handleDelete()}
-            ><DeleteIcon /></button>
-          }
-
-          {/* If Editting */}
-          {this.props.showEdit &&
-            <button
-              className="btn btn-primary float-right"
-              onClick={() => this.toggleEditting()}
-            ><EditIcon /></button>
-          }
-        </Grid>
-      </Grid>
+      <React.Fragment>
+        <ListItem button onClick={this.handleClickMenu}>
+          <ListItemText 
+            primary={this.props.title}
+            secondary={moment(this.props.datetime).format('LT') + ' - ' + this.howLongAgo()} 
+          />
+        </ListItem>
+        <Menu
+          anchorEl={this.state.anchorEl}
+          open={Boolean(this.state.anchorEl)}
+          onClose={this.handleCloseMenu} 
+        >
+          <MenuItem onClick={this.showEdit}>Edit</MenuItem>
+          <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
+        </Menu>
+      </React.Fragment>
     }
 
     //-------------------------------------------------------------
 
     return (
-      <div className="list-group-item">
+      <React.Fragment>
         {activity}
-      </div>
+      </React.Fragment>
     );
   }
 }

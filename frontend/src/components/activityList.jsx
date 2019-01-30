@@ -3,7 +3,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import Activity from './activity';
-var moment = require('moment');
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
+
+const moment = require('moment');
 
 class ActivityList extends Component {
   render() {
@@ -13,9 +18,9 @@ class ActivityList extends Component {
     // Check if there are activities to show.
     if (isEmpty) {
       list =
-        <div style={{ textAlign: "center" }}>
-          <h1 className="mt-5">No activities!</h1>
-        </div>;
+      <div style={{ textAlign: "center", marginBottom: '60px' }}>
+        <h1 className="mt-5">No activities!</h1>
+      </div>
     }
     
     //-------------------------------------------------------------
@@ -29,39 +34,38 @@ class ActivityList extends Component {
       // Sort activities list by date then map
       // each activities into individual components.
       list =
-        <div className="list-group">
-          {this.props.activities.sort(
+      <React.Fragment>
+        {this.props.activities.sort(
 
-            // Sort activities list by date.
-            (a, b) => { return new Date(b.datetime) - new Date(a.datetime) }
-          ).map(activity => {
-            let activityDate = new Date(activity.datetime);
-            let dateHeader;
+          // Sort activities list by date.
+          (a, b) => { return new Date(b.datetime) - new Date(a.datetime) }
+        ).map(activity => {
+          let activityDate = new Date(activity.datetime);
+          let dateHeader;
 
-            // Group together activities under the same date (dateHeader)
-            if (date.getDate() !== activityDate.getDate() ||
-              date.getMonth() !== activityDate.getMonth() ||
-              date.getFullYear() !== activityDate.getFullYear()) {
-              date = activityDate;
-              dateHeader = <div>{moment(date).format('YYYY/MM/DD')}</div>
-            }
+          // Group together activities under the same date (dateHeader)
+          if (date.getDate() !== activityDate.getDate() ||
+            date.getMonth() !== activityDate.getMonth() ||
+            date.getFullYear() !== activityDate.getFullYear()) {
+            date = activityDate;
+            dateHeader = <ListSubheader style={{ textAlign: "center" }}><Divider />{moment(date).format('YYYY/MM/DD')}</ListSubheader>
+          }
 
-            // Complete group of a single Activity component.
-            return <div key={activity._id}>
+          // Complete group of a single Activity component.
+          return (
+            <React.Fragment key={activity._id}>
               {dateHeader}
-              
               <Activity
                 _id={activity._id}
                 title={activity.title}
                 datetime={activity.datetime}
-                showDelete={this.props.showDelete}
-                showEdit={this.props.showEdit}
                 onDelete={this.props.onDelete}
                 onUpdate={this.props.onUpdate}
               />
-            </div>
-          })}
-        </div>;
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
     }
 
     if (this.props.loading) {
@@ -71,11 +75,13 @@ class ActivityList extends Component {
     //-------------------------------------------------------------
 
     return (
-      <React.Fragment>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          {list}
-        </MuiPickersUtilsProvider>
-      </React.Fragment>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Paper square>
+          <List>
+            {list}
+          </List>
+        </Paper>
+      </MuiPickersUtilsProvider>
     );
   }
 }
