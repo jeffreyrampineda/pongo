@@ -100,6 +100,16 @@ class App extends Component {
     this.setState({[name]: value});
   }
 
+  handleChangeTime = (event) => {
+    
+    let value = new Date(this.state.newDatetime);
+    const name = event.target.name;
+    const hoursMinutes = event.target.value.split(':')
+
+    value.setHours(hoursMinutes[0], hoursMinutes[1])
+    this.setState({[name]: value});
+  }
+
   toggleCreateActivity = _ => {
     this.setState({
       newTitle: 'Pee',
@@ -162,16 +172,21 @@ class App extends Component {
                   <MenuItem value='Sleep'>Sleep</MenuItem>
                 </Select>
               </FormControl>
-            <TextField
-              label="Alarm clock"
-              type="time"
-              defaultValue={moment(this.state.newDatetime).format('HH:mm')}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }} />
+              <FormControl>
+                <TextField
+                  label="Alarm clock"
+                  type="time"
+                  defaultValue={moment(this.state.newDatetime).format('HH:mm')}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    step: 300, // 5 min
+                  }} 
+                  name="newDatetime"
+                  onChange={this.handleChangeTime}
+                />
+              </FormControl>
             </form>
           </DialogContent>
           <DialogActions>
