@@ -8,7 +8,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 const moment = require('moment');
 
@@ -21,7 +24,7 @@ class App extends Component {
     this.state = {
       activities: [],
       isCreatingActivity: false,
-      newTitle: "",
+      newTitle: '',
       newDatetime: new Date(),
       loading: false,
     };
@@ -99,7 +102,7 @@ class App extends Component {
 
   toggleCreateActivity = _ => {
     this.setState({
-      newTitle: "",
+      newTitle: 'Pee',
       newDatetime: new Date(),
       isCreatingActivity: !this.state.isCreatingActivity });
   };
@@ -136,12 +139,29 @@ class App extends Component {
         >
           <DialogTitle id="simple-dialog-title">Create new activity</DialogTitle>
           <DialogContent>
-            <TextField
-              label="Activity"
-              name="newTitle"
-              type="text"
-              value={this.state.newTitle}
-              onChange={this.handleChange} />
+            <form autoComplete="off">
+              <FormControl>
+                <InputLabel htmlFor="newTitle-simple">Activity</InputLabel>
+                <Select
+                  label="Activity"
+                  name="newTitle"
+                  value={this.state.newTitle}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: 'newTitle',
+                    id: 'newTitle-simple',
+                  }}
+                >
+                  <MenuItem value='Pee'>Pee</MenuItem>
+                  <MenuItem value='Poop'>Poop</MenuItem>
+                  <MenuItem value='Meal'>Meal</MenuItem>
+                  <MenuItem value='Walk Start'>Walk Start</MenuItem>
+                  <MenuItem value='Walk End'>Walk End</MenuItem>
+                  <MenuItem value='Wash Feet'>Wash Feet</MenuItem>
+                  <MenuItem value='Wake Up'>Wake Up</MenuItem>
+                  <MenuItem value='Sleep'>Sleep</MenuItem>
+                </Select>
+              </FormControl>
             <TextField
               label="Alarm clock"
               type="time"
@@ -152,6 +172,7 @@ class App extends Component {
               inputProps={{
                 step: 300, // 5 min
               }} />
+            </form>
           </DialogContent>
           <DialogActions>
             <Button 
