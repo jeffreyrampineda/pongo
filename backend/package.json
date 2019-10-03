@@ -2,9 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server/index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpileOnly ./server/server.ts",
+    "start": "node ./dist/server.js",
+    "dev": "ts-node-dev --respawn --transpileOnly ./server/server.ts",
+    "build": "npx tsc",
+    "postinstall": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,6 +24,6 @@
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.34",
     "ts-node-dev": "^1.0.0-pre.43",
-    "typescript": "^3.1.6"
+    "typescript": "^3.6.3"
   }
 }
