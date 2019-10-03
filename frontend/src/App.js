@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
+import Summary from './components/summary';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -121,23 +123,41 @@ class App extends Component {
     return (
       <React.Fragment>
         <NavBar />
-        <div className="pongo-actions">
-          <button
-            className="btn btn-link"
-            onClick={this.toggleCreateActivity}
-          ><AddCircle fontSize="large" /></button>
-        </div>
 
         {/*-------------------------------------------------------------*/}
 
-        <main className="container">
-          <ActivityList
-            loading={this.state.loading}
-            activities={this.state.activities}
-            onDelete={this.handleDeleteActivity}
-            onUpdate={this.handleUpdateActivity}
-          />
-        </main>
+        <Router>
+          <Link to="/">Home</Link>
+          <Link to="/summary">Summary</Link>
+          <div className="pongo-actions">
+            <button
+              className="btn btn-link"
+              onClick={this.toggleCreateActivity}
+            ><AddCircle fontSize="large" /></button>
+          </div>
+
+          {/*-------------------------------------------------------------*/}
+
+          <main className="container">
+            <Route 
+              exact path="/" 
+              render={() => <ActivityList 
+                loading={this.state.loading}
+                activities={this.state.activities}
+                onDelete={this.deleteActivity}
+                onUpdate={this.updateActivity}
+              />}
+            />
+            <Route 
+              path="/summary" 
+              render={() => <Summary 
+                loading={this.state.loading}
+                activities={this.state.activities}
+              />} 
+            />
+          </main>
+
+        </Router>
 
         {/*-------------------------------------------------------------*/}
 
