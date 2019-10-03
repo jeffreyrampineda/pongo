@@ -12,12 +12,12 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import axios from 'axios';
+import { ActivityService } from './services/ActivityService';
 const moment = require('moment');
 
-class App extends Component {
+const activityService = new ActivityService();
 
-  activitiesUrl = 'http://localhost:3001/api/activities';
+class App extends Component {
 
   constructor(props) {
     super(props);
@@ -31,64 +31,62 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getDataFromDb();
+    this.getActivities();
   }
 
   //-------------------------------------------------------------
 
-  handleCreateActivity = _ => {
-    axios.post(this.activitiesUrl, {
-      title: this.state.newTitle,
-      datetime: this.state.newDatetime
-    })
-    .then(response => {
-      if(response.status===200) {
-        const activities = this.state.activities;
-        activities.push(response.data);
-    
-        this.setState({ activities });
-        this.toggleCreateActivity();
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  createActivity = _ => {
+    activityService.createActivity(this.state.newTitle, this.state.newDatetime)
+      .then(result => {
+        if (result) {
+          const activities = this.state.activities;
+          activities.push(result);
+
+          this.setState({ activities });
+          this.toggleCreateActivity();
+        }
+      }).catch(error => {
+        console.log(error);
+      });
   }
 
-  handleUpdateActivity = updatedActivity => {
-    axios.put(`${this.activitiesUrl}/${updatedActivity._id}`, updatedActivity)
-    .then(response => {
-      if(response.status===200) {
+  updateActivity = updatedActivity => {
+    activityService.updateActivity(updatedActivity).then(result => {
+      if (result) {
         const activityIndex = this.state.activities.findIndex(a => a._id === updatedActivity._id);
         const activities = this.state.activities;
         activities[activityIndex] = updatedActivity;
 
         this.setState({ activities });
       }
+    }).catch(error => {
+      console.log(error);
     })
   }
 
-  handleDeleteActivity = id => {
-    axios.delete(`${this.activitiesUrl}/${id}`)
-    .then(response => {
-      if(response.status===200) {
+  deleteActivity = id => {
+    activityService.deleteActivity(id).then(result => {
+      if (result) {
         const activities = this.state.activities.filter(a => a._id !== id);
         
         this.setState({ activities });
       }
-    })
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
-  getDataFromDb = _ => {
+  getActivities = _ => {
     this.setState({ loading: true });
 
-    axios.get(this.activitiesUrl)
-      .then(response => {
-        this.setState({ activities: response.data, loading: false })
-      })
-      .catch(function (error) {
+    activityService.getActivities().then(result => {
+        this.setState({ activities: result });
+      }).catch(error => {
         console.log(error);
-      })
+      }).finally(_ => {
+        this.setState({ loading: false });
+      });
   };
 
 //-------------------------------------------------------------
@@ -196,7 +194,7 @@ class App extends Component {
             >Cancel</Button>
             <Button
               color="primary"
-              onClick={() => this.handleCreateActivity()}
+              onClick={() => this.createActivity()}
             >Submit</Button>
           </DialogActions>
         </Dialog>
