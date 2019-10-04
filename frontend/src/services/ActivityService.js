@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export class ActivityService {
 
-    activitiesUrl = 'http://localhost:3001/api/activities';
+    activitiesUrl = '/api/activities';
 
     createActivity(activity, datetime) {
         return new Promise((resolve, reject) => {
