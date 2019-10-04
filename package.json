@@ -2,15 +2,30 @@
   "name": "pongo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "cd backend && npm run start",
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "start": "node ./dist/server.js",
+    "dev": "ts-node-dev --respawn --transpileOnly ./server/server.ts",
+    "build": "npx tsc",
+    "postinstall": "npm run build && cd frontend && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "@koa/cors": "^2.2.3",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-sendfile": "^2.0.1",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.3.12"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.34",
+    "ts-node-dev": "^1.0.0-pre.43",
+    "typescript": "^3.6.3"
   }
 }

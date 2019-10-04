@@ -18,6 +18,8 @@ const options:cors.CorsOptions = {
 };
 const router = new Router();
 
+app.use(require('koa-static')(__dirname + '/../frontend/build'));
+
 routes(router)
 
 app.use(cors(options));
