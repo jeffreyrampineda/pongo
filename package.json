@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node ./dist/server.js",
-    "dev": "ts-node-dev --respawn --transpileOnly ./server/server.ts",
+    "dev": "concurrently \"ts-node-dev --respawn --transpileOnly ./server/server.ts\" \"cd frontend && npm run dev\"",
     "build": "npx tsc",
     "postinstall": "npm run build && cd frontend && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.1.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.34",
+    "concurrently": "^4.1.2",
     "ts-node-dev": "^1.0.0-pre.43",
     "typescript": "^3.6.3"
   }

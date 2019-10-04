@@ -4,7 +4,10 @@ const path = require("path")
 
 export default (router) => {
     router.use('/api/activities', ActivitiesRoute)
-    router.get('*', async (ctx) => {
-        await sendfile(ctx, (path.join(__dirname, "/../../", "frontend/build", "index.html")));
-    })
+
+    if (process.env.NODE_ENV === 'production') {
+        router.get('*', async (ctx) => {
+            await sendfile(ctx, (path.join(__dirname, "/../../", "frontend/build", "index.html")));
+        })
+    }
 }
