@@ -2,31 +2,17 @@
   "name": "pongo",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
-  "scripts": {
-    "start": "node ./dist/server.js",
-    "dev": "concurrently \"ts-node-dev --respawn --transpileOnly ./server/server.ts\" \"cd frontend && npm run dev\"",
-    "build": "npx tsc",
-    "postinstall": "npm run build && cd frontend && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "main": "index.js",
   "dependencies": {
-    "dotenv": "^8.1.0",
-    "koa": "^2.6.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "koa-sendfile": "^2.0.1",
-    "koa-static": "^5.0.0",
-    "mongoose": "^5.3.12"
+    "concurrently": "^5.2.0"
   },
-  "devDependencies": {
-    "@types/koa": "^2.0.46",
-    "@types/koa-router": "^7.0.34",
-    "concurrently": "^4.1.2",
-    "ts-node-dev": "^1.0.0-pre.43",
-    "typescript": "^3.6.3"
-  }
+  "devDependencies": {},
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "dev-backend": "cd backend && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+
+  },
+  "author": "",
+  "license": "ISC"
 }
