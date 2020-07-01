@@ -7,12 +7,7 @@ const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
 
-if (process.env.NODE_ENV !== 'production') {
-
-} else if (process.env.NODE_ENV === 'production') {
-    app.use(require('koa-static')(__dirname + '/../frontend/build'));
-}
-
+app.use(require('koa-static')(__dirname + '/client/build'));
 app.use(bodyParser());
 
 // Api routes
