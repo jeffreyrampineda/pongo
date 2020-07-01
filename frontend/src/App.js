@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import NavBar from './components/navbar';
 import ActivityList from './components/activityList';
-import Summary from './components/summary';
 import AddCircle from '@material-ui/icons/AddCircle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -126,9 +124,6 @@ class App extends Component {
 
         {/*-------------------------------------------------------------*/}
 
-        <Router>
-          <Link to="/">Home</Link>
-          <Link to="/summary">Summary</Link>
           <div className="pongo-actions">
             <button
               className="btn btn-link"
@@ -139,25 +134,13 @@ class App extends Component {
           {/*-------------------------------------------------------------*/}
 
           <main className="container">
-            <Route 
-              exact path="/" 
-              render={() => <ActivityList 
+            <ActivityList 
                 loading={this.state.loading}
                 activities={this.state.activities}
                 onDelete={this.deleteActivity}
                 onUpdate={this.updateActivity}
-              />}
-            />
-            <Route 
-              path="/summary" 
-              render={() => <Summary 
-                loading={this.state.loading}
-                activities={this.state.activities}
-              />} 
-            />
+              />
           </main>
-
-        </Router>
 
         {/*-------------------------------------------------------------*/}
 
