@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(bodyParser());
 
 // Api routes
-require('./routes')(router);
+require('./controllers')(router);
 app.use(router.routes());
 
 mongoose.connect(process.env.MONGODB_URI_development,

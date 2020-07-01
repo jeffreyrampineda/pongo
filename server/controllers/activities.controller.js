@@ -1,29 +1,26 @@
 const Activity = require('../models/activity');
+const Router = require('koa-router');
 
-async function getAll(ctx) {
+const router = new Router();
+
+router.get('/', async (ctx) => {
     ctx.body = await Activity.find();
-}
+});
 
-async function getById(ctx) {
+router.get('/:id', async (ctx) => {
     ctx.body = await Activity.findOne({ _id: ctx.params.id })
-}
+});
 
-async function create(ctx) {
+router.post('/', async (ctx) => {
     ctx.body = await Activity.create(ctx.request.body);
-}
+});
 
-async function update(ctx) {
+router.put('/:id', async (ctx) => {
     ctx.body = await Activity.findOneAndUpdate({ _id: ctx.params.id }, ctx.request.body)
-}
+});
 
-async function del(ctx) {
+router.del('/:id', async (ctx) => {
     ctx.body = await Activity.deleteOne({ _id: ctx.params.id })
-}
+});
 
-module.exports = {
-    getAll,
-    getById,
-    create,
-    update,
-    del,
-}
+module.exports = router.routes();
