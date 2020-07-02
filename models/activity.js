@@ -10,10 +10,6 @@ const activitySchema = new Schema({
         type: Date,
         default: Date.now
     },
-    isEditting: {
-        type: Boolean,
-        default: false
-    },
 });
 
 module.exports = mongoose.model('Activity', activitySchema);

@@ -46,12 +46,11 @@ class Activity extends Component {
 
   handleUpdate = () => {
     let updatedActivity = {
-      _id: this.props._id,
       title: this.state.title,
       datetime: new Date(moment(this.state.datetime).format('YYYY/MM/DD HH:mm')),
     }
 
-    this.props.onUpdate(updatedActivity);
+    this.props.onUpdate(this.props._id, updatedActivity);
     this.closeEdit();
   }
 

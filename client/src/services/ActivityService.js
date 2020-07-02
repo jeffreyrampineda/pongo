@@ -34,9 +34,9 @@ export class ActivityService {
         });
     }
 
-    updateActivity(updatedActivity) {
+    updateActivity(id, updatedActivity) {
         return new Promise((resolve, reject) => {
-            axios.put(`${this.activitiesUrl}/${updatedActivity._id}`, updatedActivity)
+            axios.put(`${this.activitiesUrl}/${id}`, updatedActivity)
                 .then(response => {
                     if(response.status === 200) {
                         resolve(true);

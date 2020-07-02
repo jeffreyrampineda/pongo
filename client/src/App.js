@@ -51,8 +51,8 @@ class App extends Component {
       });
   }
 
-  updateActivity = updatedActivity => {
-    activityService.updateActivity(updatedActivity).then(result => {
+  updateActivity = (id, updatedActivity) => {
+    activityService.updateActivity(id, updatedActivity).then(result => {
       if (result) {
         const activityIndex = this.state.activities.findIndex(a => a._id === updatedActivity._id);
         const activities = this.state.activities;
