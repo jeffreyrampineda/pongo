@@ -19,17 +19,29 @@ class Activity extends Component {
       anchorEl: null,
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   //-------------------------------------------------------------
 
-  handleChange(event) {
+  handleTitleChange(event) {
     const value = event.target.value;
-    const name = event.target.name;
+    this.setState({ title: value });
+  }
 
-    this.setState({ [name]: value });
+  handleTimeChange(event) {
+    let datetime = new Date(this.state.datetime);
+    const hoursMinutes = event.target.value.split(':')
+
+    datetime.setHours(hoursMinutes[0], hoursMinutes[1]);
+    this.setState({ datetime });
+  }
+
+  handleDateChange(datetime) {
+    this.setState({ datetime })
   }
 
   handleUpdate = () => {
@@ -112,25 +124,26 @@ class Activity extends Component {
       <ListItem>
          <TextField
             label="Activity"
-            name="title"
             type="text"
             value={this.state.title}
-            onChange={this.handleChange}
+            onChange={this.handleTitleChange}
           />
           <TextField
             label="Alarm clock"
             type="time"
-            defaultValue={moment(this.state.datetime).format('HH:mm')}
+            value={moment(this.state.datetime).format('HH:mm')}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
               step: 300, // 5 min
             }}
+            onChange={this.handleTimeChange}
           />
           <DatePicker
             label="Date"
             value={this.state.datetime}
+            onChange={this.handleDateChange}
           />
           <Button size="small" onClick={this.closeEdit}>Cancel</Button>
           <Button size="small" color="primary" onClick={this.handleUpdate}>Save</Button>
