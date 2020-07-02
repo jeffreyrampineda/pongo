@@ -8,19 +8,28 @@ router.get('/', async (ctx) => {
 });
 
 router.get('/:id', async (ctx) => {
-    ctx.body = await Activity.findOne({ _id: ctx.params.id })
+    const { id } = ctx.params;
+
+    ctx.body = await Activity.findOne({ _id: id })
 });
 
 router.post('/', async (ctx) => {
-    ctx.body = await Activity.create(ctx.request.body);
+    const { title, datetime } = ctx.request.body;
+
+    ctx.body = await Activity.create({ title, datetime });
 });
 
 router.put('/:id', async (ctx) => {
-    ctx.body = await Activity.findOneAndUpdate({ _id: ctx.params.id }, ctx.request.body)
+    const { id } = ctx.params;
+    const { title, datetime } = ctx.request.body;
+
+    ctx.body = await Activity.findOneAndUpdate({ _id: id }, { title, datetime });
 });
 
 router.del('/:id', async (ctx) => {
-    ctx.body = await Activity.deleteOne({ _id: ctx.params.id })
+    const { id } = ctx.params;
+
+    ctx.body = await Activity.deleteOne({ _id: id })
 });
 
 module.exports = router.routes();
