@@ -54,10 +54,13 @@ class App extends Component {
   updateActivity = (id, updatedActivity) => {
     activityService.updateActivity(id, updatedActivity).then(result => {
       if (result) {
-        const activityIndex = this.state.activities.findIndex(a => a._id === updatedActivity._id);
-        const activities = this.state.activities;
-        activities[activityIndex] = updatedActivity;
-
+        const activities = this.state.activities.map(activity => {
+          if (activity._id === id) {
+            activity.title = result.title;
+            activity.datetime = result.datetime;
+          }
+          return activity;
+        });
         this.setState({ activities });
       }
     }).catch(error => {

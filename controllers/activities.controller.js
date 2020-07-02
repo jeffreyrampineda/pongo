@@ -23,7 +23,7 @@ router.put('/:id', async (ctx) => {
     const { id } = ctx.params;
     const { title, datetime } = ctx.request.body;
 
-    ctx.body = await Activity.findOneAndUpdate({ _id: id }, { title, datetime });
+    ctx.body = await Activity.findOneAndUpdate({ _id: id }, { title, datetime }, { new: true });
 });
 
 router.del('/:id', async (ctx) => {

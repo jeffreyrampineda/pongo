@@ -39,7 +39,7 @@ export class ActivityService {
             axios.put(`${this.activitiesUrl}/${id}`, updatedActivity)
                 .then(response => {
                     if(response.status === 200) {
-                        resolve(true);
+                        resolve(response.data);
                     } else {
                         resolve(false);
                     }

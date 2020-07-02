@@ -85,8 +85,8 @@ class Activity extends Component {
     else if (minutes >= hour) {
       var hours = Math.floor(minutes / hour);
       timeAgoString = hours + " hour" + this.pluralize(hours);
-    } 
-    
+    }
+
     // Minutes
     else {
       timeAgoString = minutes + " minute" + this.pluralize(minutes);
@@ -100,15 +100,19 @@ class Activity extends Component {
   }
 
   showEdit = () => {
-    this.setState({ isEditting: true });
+    this.setState({
+      title: this.props.title,
+      datetime: this.props.datetime,
+      isEditting: true
+    });
   }
 
   closeEdit = () => {
-    this.setState({ 
+    this.setState({
       title: this.props.title,
       datetime: this.props.datetime,
-      isEditting: false, 
-      anchorEl: null 
+      isEditting: false,
+      anchorEl: null
     });
   }
 
@@ -120,8 +124,8 @@ class Activity extends Component {
     // Check if activity is being editted.
     if (this.state.isEditting) {
       activity =
-      <ListItem>
-         <TextField
+        <ListItem>
+          <TextField
             label="Activity"
             type="text"
             value={this.state.title}
@@ -146,29 +150,29 @@ class Activity extends Component {
           />
           <Button size="small" onClick={this.closeEdit}>Cancel</Button>
           <Button size="small" color="primary" onClick={this.handleUpdate}>Save</Button>
-      </ListItem>
-    } 
+        </ListItem>
+    }
 
     //-------------------------------------------------------------
 
     else {
       activity =
-      <React.Fragment>
-        <ListItem button onClick={this.handleClickMenu}>
-          <ListItemText 
-            primary={this.props.title}
-            secondary={moment(this.props.datetime).format('LT') + ' - ' + this.howLongAgo()} 
-          />
-        </ListItem>
-        <Menu
-          anchorEl={this.state.anchorEl}
-          open={Boolean(this.state.anchorEl)}
-          onClose={this.handleCloseMenu} 
-        >
-          <MenuItem onClick={this.showEdit}>Edit</MenuItem>
-          <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
-        </Menu>
-      </React.Fragment>
+        <React.Fragment>
+          <ListItem button onClick={this.handleClickMenu}>
+            <ListItemText
+              primary={this.props.title}
+              secondary={moment(this.props.datetime).format('LT') + ' - ' + this.howLongAgo()}
+            />
+          </ListItem>
+          <Menu
+            anchorEl={this.state.anchorEl}
+            open={Boolean(this.state.anchorEl)}
+            onClose={this.handleCloseMenu}
+          >
+            <MenuItem onClick={this.showEdit}>Edit</MenuItem>
+            <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
+          </Menu>
+        </React.Fragment>
     }
 
     //-------------------------------------------------------------
