@@ -129,7 +129,6 @@ class Activity extends Component {
             }}
           />
           <DatePicker
-            margin="normal"
             label="Date"
             value={this.state.datetime}
           />
