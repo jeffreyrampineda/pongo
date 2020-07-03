@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 const moment = require('moment');
 
-class Activity extends Component {
+export default class Activity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -184,5 +184,3 @@ class Activity extends Component {
     );
   }
 }
-
-export default Activity;

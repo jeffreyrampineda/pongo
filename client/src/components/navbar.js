@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-class NavBar extends Component {
+export default class NavBar extends Component {
   render() {
     return (
       <div className="container">
@@ -19,5 +19,3 @@ class NavBar extends Component {
     );
   }
 }
-
-export default NavBar;

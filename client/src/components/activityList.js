@@ -10,7 +10,7 @@ import Divider from '@material-ui/core/Divider';
 
 const moment = require('moment');
 
-class ActivityList extends Component {
+export default class ActivityList extends Component {
   render() {
     const isEmpty = this.props.activities.length === 0;
     let list;
@@ -85,5 +85,3 @@ class ActivityList extends Component {
     );
   }
 }
-
-export default ActivityList;
