@@ -13,7 +13,7 @@
     "date-fns": "^2.0.0-alpha.25",
     "i": "^0.3.6",
     "material-ui-pickers": "^2.1.2",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "react": "^16.6.3",
     "react-chartjs-2": "^2.8.0",
     "react-dom": "^16.6.3",
